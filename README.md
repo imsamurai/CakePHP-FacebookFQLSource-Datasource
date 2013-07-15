@@ -69,31 +69,31 @@ Configure::write('FacebookFQLSourceTest', array(
 
 You can use facebook tables simply as db tables. Also you can make subqueries:
 ```
-		$this->FacebookFQL->setSource('user');
-		$this->FacebookFQL->setCredentials(Configure::read('FacebookFQLSourceTest.credentials'));
+$this->FacebookFQL->setSource('user');
+$this->FacebookFQL->setCredentials(Configure::read('FacebookFQLSourceTest.credentials'));
 
-		$db = $this->FacebookFQL->getDataSource();
-		$subquery = $db->buildStatement(array(
-			'fields' => array('uid2'),
-			'table' => 'friend',
-			'conditions' => array(
-				'uid1' => 'me()'
-			),
-				), $this->FacebookFQL
-		);
-		$params = array(
-			'conditions' => array(
-				'OR' => array(
-					'uid' => 'me()',
-					"uid IN ($subquery)"
-				)
-			),
-			'fields' => array(
-				'uid', 'name', 'pic_square'
-			)
-		);
+$db = $this->FacebookFQL->getDataSource();
+$subquery = $db->buildStatement(array(
+	'fields' => array('uid2'),
+	'table' => 'friend',
+	'conditions' => array(
+		'uid1' => 'me()'
+	),
+		), $this->FacebookFQL
+);
+$params = array(
+	'conditions' => array(
+		'OR' => array(
+			'uid' => 'me()',
+			"uid IN ($subquery)"
+		)
+	),
+	'fields' => array(
+		'uid', 'name', 'pic_square'
+	)
+);
 
-		$result = $this->FacebookFQL->find('first', $params);
+$result = $this->FacebookFQL->find('first', $params);
 ```
 
 All complex conditions - OR, AND, etc should work fine.
