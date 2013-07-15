@@ -41,7 +41,8 @@ class FacebookFQLSourceEndpoint extends HttpSourceEndpoint {
 		$queryData['table'] = $this->table();
 
 		$Model->request['uri']['query'] = array(
-			'q' => static::buildStatement($queryData, $Model)
+			'q' => static::buildStatement($queryData, $Model),
+			'format' => 'json-strings'
 		);
 	}
 
