@@ -58,4 +58,20 @@ class FacebookFQLSource extends HttpSource {
 	public function buildStatement($query, Model $Model) {
 		return FacebookFQLSourceEndpoint::buildStatement($query, $Model);
 	}
+
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @param HttpSocketResponse $Response
+	 * @return string
+	 */
+	public function extractRemoteError(HttpSocketResponse $Response) {
+		try {
+			$response = $this->decode($Response);
+			$message = isset($response['error']['message']) ? $response['error']['message'] : 'can\'t decode answer';
+		} catch (Exception $Exception) {
+			$message = $Exception->getMessage();
+		}
+		return parent::extractRemoteError($Response) . " ($message)";
+	}
 }
