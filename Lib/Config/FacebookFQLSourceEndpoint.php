@@ -7,7 +7,7 @@
  *
  */
 App::uses('HttpSourceEndpoint', 'HttpSource.Lib/Config');
-App::uses('FacebookFQLFakeDboSource', 'FacebookFQLSource.Model/Datasource');
+App::uses('FacebookFQLDboSource', 'FacebookFQLSource.Model/Datasource');
 
 /**
  * FacebookFQL source endpoint
@@ -23,7 +23,7 @@ class FacebookFQLSourceEndpoint extends HttpSourceEndpoint {
 	 * @return string An executable SQL statement
 	 */
 	public static function buildStatement($query, Model $Model) {
-		return (new FacebookFQLFakeDboSource())->buildStatement($query, $Model);
+		return (new FacebookFQLDboSource())->buildStatement($query, $Model);
 	}
 
 	/**

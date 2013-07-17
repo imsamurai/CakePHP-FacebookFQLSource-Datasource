@@ -6,7 +6,9 @@
  * Time: 20:35:28
  *
  */
-class FacebookFQLFakeConnection {
+App::uses('HttpSourceConnection', 'HttpSource.Model/Datasource');
+
+class FacebookFQLConnection extends HttpSourceConnection {
 
 	/**
 	 * Quote data
@@ -29,6 +31,21 @@ class FacebookFQLFakeConnection {
 					return $data;
 				}
 		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @return string
+	 */
+	public function _extractRemoteError() {
+		try {
+			$response = $this->_decode();
+			$message = isset($response['error']['message']) ? $response['error']['message'] : 'can\'t decode answer';
+		} catch (Exception $Exception) {
+			$message = $Exception->getMessage();
+		}
+		return parent::_extractRemoteError() . " ($message)";
 	}
 
 }

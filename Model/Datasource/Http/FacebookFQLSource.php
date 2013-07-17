@@ -7,6 +7,7 @@
  * Format: https://github.com/imsamurai/cakephp-httpsource-datasource
  */
 App::uses('HttpSource', 'HttpSource.Model/Datasource');
+App::uses('FacebookFQLConnection', 'FacebookFQLSource.Model/Datasource');
 
 class FacebookFQLSource extends HttpSource {
 
@@ -16,6 +17,16 @@ class FacebookFQLSource extends HttpSource {
 	 * @var string
 	 */
 	public $description = 'FacebookFQLSource DataSource';
+
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @param array $config
+	 * @param HttpSourceConnection $Connection
+	 */
+	public function __construct($config = array(), HttpSourceConnection $Connection = null) {
+		parent::__construct($config, new FacebookFQLConnection($config));
+	}
 
 	/**
 	 * {@inheritdoc}
@@ -59,19 +70,4 @@ class FacebookFQLSource extends HttpSource {
 		return FacebookFQLSourceEndpoint::buildStatement($query, $Model);
 	}
 
-	/**
-	 * {@inheritdoc}
-	 *
-	 * @param HttpSocketResponse $Response
-	 * @return string
-	 */
-	public function extractRemoteError(HttpSocketResponse $Response) {
-		try {
-			$response = $this->decode($Response);
-			$message = isset($response['error']['message']) ? $response['error']['message'] : 'can\'t decode answer';
-		} catch (Exception $Exception) {
-			$message = $Exception->getMessage();
-		}
-		return parent::extractRemoteError($Response) . " ($message)";
-	}
 }

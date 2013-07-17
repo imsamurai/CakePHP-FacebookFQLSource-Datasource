@@ -7,12 +7,12 @@
  *
  */
 App::uses('DboSource', 'Model/Datasource');
-App::uses('FacebookFQLFakeConnection', 'FacebookFQLSource.Model/Datasource');
+App::uses('FacebookFQLConnection', 'FacebookFQLSource.Model/Datasource');
 
 /**
  * This source is made for build fql queries
  */
-class FacebookFQLFakeDboSource extends DboSource {
+class FacebookFQLDboSource extends DboSource {
 	/**
 	 * {@inheritdoc}
 	 *
@@ -21,7 +21,7 @@ class FacebookFQLFakeDboSource extends DboSource {
 	public $alias = '';
 
 	public function connect() {
-		$this->_connection = new FacebookFQLFakeConnection();
+		$this->_connection = new FacebookFQLConnection();
 		$this->connected = true;
 		$this->_useAlias = false;
 		return $this->connected;
