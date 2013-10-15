@@ -44,6 +44,8 @@ class FacebookFQLSourceEndpoint extends HttpSourceEndpoint {
 			'q' => static::buildStatement($queryData, $Model),
 			'format' => 'json-strings'
 		);
+
+		$Model->request['uri']['path'] = '';
 	}
 
 }
